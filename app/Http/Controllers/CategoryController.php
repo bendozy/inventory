@@ -2,11 +2,12 @@
 
 namespace Inventory\Http\Controllers;
 
+use Inventory\Category;
 use Illuminate\Http\Request;
 
 use Inventory\Http\Requests;
 
-class CategoriesController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +16,9 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+
+        return view('category.index', compact('categories'));
     }
 
     /**
@@ -25,7 +28,7 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        //
+        return view('category.create');
     }
 
     /**
@@ -36,7 +39,13 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|unique:categories|min:2',
+        ]);
+
+        Category::create($request->all());
+
+        return redirect('/categories');
     }
 
     /**
@@ -56,9 +65,15 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($category)
     {
-        //
+        $category = Category::find($category);
+
+        if($category) {
+            return view('category.create', compact('category'));
+        }
+
+        return abort(404);
     }
 
     /**
@@ -68,9 +83,22 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $category)
     {
-        //
+        $category = Category::find($category);
+
+        if($category) {
+            $this->validate($request, [
+                'name' => 'required|min:2|unique:categories,name,'.$category->id,
+            ]);
+
+            $category->name = $request->get('name');
+            $category->save();
+        } else{
+
+        }
+
+        return redirect('/categories');
     }
 
     /**
@@ -79,8 +107,14 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($category)
     {
-        //
+        $category = Item::find($category);
+
+        if($category) {
+            Category::destroy($category->id);
+        }
+
+        return redirect('/categories');
     }
 }

@@ -19,5 +19,6 @@ Route::auth();
 
 Route::get('/home', 'HomeController@index');
 
-Route::resource('category', 'CategoryController');
-Route::resource('item', 'ItemController');
+Route::resource('categories', 'CategoryController');
+
+Route::resource('items', 'ItemController');

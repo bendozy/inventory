@@ -2,11 +2,15 @@
 
 namespace Inventory\Http\Controllers;
 
+use Inventory\Item;
+
+use Inventory\Category;
+
 use Illuminate\Http\Request;
 
 use Inventory\Http\Requests;
 
-class ItemsController extends Controller
+class ItemController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +19,7 @@ class ItemsController extends Controller
      */
     public function index()
     {
-        //
+        return 'items';
     }
 
     /**
@@ -25,7 +29,9 @@ class ItemsController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+
+        return view('item.create', compact('categories'));
     }
 
     /**
@@ -36,7 +42,21 @@ class ItemsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|unique:items|min:2',
+        ]);
+
+        $category = Category::find($request->get('category'));
+
+        if($category){
+            Item::create(['name'=> $request->get('name'), 'category_id' => $request->get('category')]);
+
+            return redirect('/items');
+        }
+
+        return back();
+
+
     }
 
     /**
@@ -56,9 +76,16 @@ class ItemsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($item)
     {
-        //
+        $categories = Category::all();
+        $item = Item::find($item);
+
+        if($item) {
+            return view('item.create', compact('item', 'categories'));
+        }
+
+        return abort(404);
     }
 
     /**
@@ -68,9 +95,22 @@ class ItemsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $item)
     {
-        //
+        $item = Item::find($item);
+
+        if($item) {
+            $this->validate($request, [
+                'name' => 'required|min:2|unique:items,name,'.$item->id,
+            ]);
+
+            $item->name = $request->get('name');
+            $item->category_id = $request->get('category');
+            $item->save();
+
+            return redirect('/items');
+        }
+
     }
 
     /**
@@ -79,8 +119,14 @@ class ItemsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($item)
     {
-        //
+        $item = Item::find($item);
+
+        if($item) {
+            Item::destroy($item->id);
+        }
+
+        return redirect('/items');
     }
 }
