@@ -6,34 +6,79 @@
     <div class="panel panel-default">
         <div class="panel-heading">Categories</div>
         <div class="panel-body">
+            <a href={{ url('/items/create') }} class="btn btn-primary">
+                Create Item
+            </a>
+
+            <hr>
+
+            <form class="form-horizontal" role="form" method="POST"
+                  action="{{ isset($category) ? url('/search') : url('/categories') }}">
+                {{ csrf_field() }}
+                @if(isset($category))
+                    {{ method_field('PUT') }}
+                @endif
+
+                <div class="form-group form inline">
+                    <label for="name" class="col-md-4 control-label">Name or Category</label>
+
+                    <div class="col-md-6">
+                        <input id="name" required type="text" class="form-control" name="name"
+                               value="{{ old('name') }}">
+                    </div>
+                </div>
+
+                <div class="form-group form inline">
+                    <label for="name" class="col-md-4 control-label">Price</label>
+
+                    <div class="col-md-6">
+                        <input id="price" required type="number" class="form-control" name="price"
+                               value="{{  old('price') }}">
+                    </div>
+                </div>
+
+                <div class="form-group form inline">
+                    <label for="name" class="col-md-4 control-label">Order By</label>
+
+                    <div class="col-md-6">
+                        <select name="order" class="form-control" id="category">
+                            <option value="name">Name</option>
+                            <option value="price">Price</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-6 col-md-offset-4">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-btn fa-sign-in"></i>Search
+                        </button>
+                    </div>
+                </div>
+            </form>
             <table class="table table-striped">
                 <thead>
                 <tr>
                     <th>Item</th>
                     <th>Category</th>
+                    <th>Price</th>
                     <th class="pull-right">Operations</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($items as $item)
-                    {{
-                      var_dump($item->category)
-                    }}
                     <tr>
                         <td>{{$item->name}}</td>
-                        <td>kee</td>
+                        <td>{{ $item->category->name }}</td>
+                        <td> &#8358;{{ $item->price }}</td>
                         <td>
                             <div class="pull-right">
-                                <button type="button" class="btn btn-default">
-                                    <a href={{ url('/items/'.$item->id.'/edit') }}>
-                                        Edit
-                                    </a>
-                                </button>
-                                <button type="button" class="btn btn-danger">
-                                    <a href={{ url('/items/'.$item->id.'/delete') }}>
-                                        Delete
-                                    </a>
-                                </button>
+                                <a href={{ url('/items/'. $item->id.'/edit') }} class="btn btn-default" >
+                                    Edit
+                                </a>
+                                <a href={{ url('/items/'. $item->id.'/delete') }} class="btn btn-danger">
+                                    Delete
+                                </a>
                             </div>
                         </td>
                     </tr>

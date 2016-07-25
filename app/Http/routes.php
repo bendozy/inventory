@@ -23,7 +23,7 @@ Route::get('categories/{category}/delete', 'CategoryController@destroy');
 
 Route::resource('categories', 'CategoryController');
 
-Route::get('items/{card}/delete', 'ItemController@destroy');
+Route::get('items/{item}/delete', 'ItemController@destroy');
 
 Route::resource('items', 'ItemController');
 

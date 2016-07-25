@@ -6,6 +6,9 @@
     <div class="panel panel-default">
         <div class="panel-heading">Categories</div>
         <div class="panel-body">
+                <a href={{ url('/categories/create') }} class="btn btn-primary">
+                    Create
+                </a>
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -19,16 +22,12 @@
                         <td>{{$category->name}}</td>
                         <td>
                             <div class="pull-right">
-                                <button type="button" class="btn btn-default">
-                                    <a href={{ url('/categories/'.$category->id.'/edit') }}>
+                                <a href={{ url('/categories/'.$category->id.'/edit') }} class="btn btn-default" >
                                         Edit
-                                    </a>
-                                </button>
-                                <button type="button" class="btn btn-danger">
-                                    <a href={{ url('/categories/'.$category->id.'/delete') }}>
+                                </a>
+                                <a href={{ url('/categories/'.$category->id.'/delete') }} class="btn btn-danger">
                                         Delete
-                                    </a>
-                                </button>
+                                </a>
                             </div>
                         </td>
                     </tr>

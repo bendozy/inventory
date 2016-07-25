@@ -29,11 +29,9 @@ class ItemController extends Controller
 
     public function index()
     {
-        $categories = $this->categories;
-
         $items = Item::all();
 
-        return view('item.index', compact('categories', 'items'));
+        return view('item.index', compact('items'));
     }
 
     /**
@@ -58,12 +56,15 @@ class ItemController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:items|min:2',
+            'price' => 'numeric'
         ]);
 
         $category = Category::find($request->get('category'));
 
         if($category){
-            Item::create(['name'=> $request->get('name'), 'category_id' => $request->get('category')]);
+            Item::create(['name'=> $request->get('name'),
+                          'category_id' => $request->get('category'),
+                          'price'=> $request->get('price')]);
 
             return redirect('/items');
         }
@@ -116,6 +117,7 @@ class ItemController extends Controller
         if($item) {
             $this->validate($request, [
                 'name' => 'required|min:2|unique:items,name,'.$item->id,
+                'price' => 'numeric'
             ]);
 
             $item->name = $request->get('name');

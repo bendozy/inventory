@@ -27,6 +27,21 @@
                 </div>
 
                 <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                    <label for="name" class="col-md-4 control-label">Price</label>
+
+                    <div class="col-md-6">
+                        <input id="price" required type="text" class="form-control" name="price"
+                               value="{{ isset($item->price) ? $item->price : old('price') }}">
+
+                        @if ($errors->has('price'))
+                            <span class="help-block">
+                            <strong>{{ $errors->first('price') }}</strong>
+                        </span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                     <label for="category" class="col-md-4 control-label">Category</label>
 
                     <div class="col-md-6">
