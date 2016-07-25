@@ -13,7 +13,7 @@
             <hr>
 
             <form class="form-horizontal" role="form" method="POST"
-                  action="{{ isset($category) ? url('/search') : url('/categories') }}">
+                  action="{{ url('/search') }}">
                 {{ csrf_field() }}
                 @if(isset($category))
                     {{ method_field('PUT') }}
@@ -23,7 +23,7 @@
                     <label for="name" class="col-md-4 control-label">Name or Category</label>
 
                     <div class="col-md-6">
-                        <input id="name" required type="text" class="form-control" name="name"
+                        <input id="name" type="text" class="form-control" name="name"
                                value="{{ old('name') }}">
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                     <label for="name" class="col-md-4 control-label">Price</label>
 
                     <div class="col-md-6">
-                        <input id="price" required type="number" class="form-control" name="price"
+                        <input id="price" type="number" class="form-control" name="price"
                                value="{{  old('price') }}">
                     </div>
                 </div>

@@ -17,10 +17,12 @@
     },
     "autoload": {
         "classmap": [
-            "database"
+            "database",
+            "app/"
         ],
         "psr-4": {
             "Inventory\\": "app/"
+
         }
     },
     "autoload-dev": {

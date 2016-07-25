@@ -27,6 +27,4 @@ Route::get('items/{item}/delete', 'ItemController@destroy');
 
 Route::resource('items', 'ItemController');
 
-Route::get('search', 'SearchController@index');
-
-Route::post('search', 'Search`Controller@search');
+Route::post('search', 'SearchController@search');
