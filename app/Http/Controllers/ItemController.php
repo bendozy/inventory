@@ -17,9 +17,23 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    protected $categories;
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->categories = Category::all();
+    }
+
+
     public function index()
     {
-        return 'items';
+        $categories = $this->categories;
+
+        $items = Item::all();
+
+        return view('item.index', compact('categories', 'items'));
     }
 
     /**
@@ -29,7 +43,7 @@ class ItemController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
+        $categories = $this->categories;
 
         return view('item.create', compact('categories'));
     }
@@ -78,7 +92,7 @@ class ItemController extends Controller
      */
     public function edit($item)
     {
-        $categories = Category::all();
+        $categories = $this->categories;
         $item = Item::find($item);
 
         if($item) {
@@ -119,10 +133,8 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($item)
+    public function destroy(Item $item)
     {
-        $item = Item::find($item);
-
         if($item) {
             Item::destroy($item->id);
         }

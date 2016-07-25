@@ -19,6 +19,14 @@ Route::auth();
 
 Route::get('/home', 'HomeController@index');
 
+Route::get('categories/{category}/delete', 'CategoryController@destroy');
+
 Route::resource('categories', 'CategoryController');
 
+Route::get('items/{card}/delete', 'ItemController@destroy');
+
 Route::resource('items', 'ItemController');
+
+Route::get('search', 'SearchController@index');
+
+Route::post('search', 'Search`Controller@search');

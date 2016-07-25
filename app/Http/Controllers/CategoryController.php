@@ -14,6 +14,15 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    /**
+     * @return string
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $categories = Category::all();
@@ -107,10 +116,8 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($category)
+    public function destroy(Category $category)
     {
-        $category = Item::find($category);
-
         if($category) {
             Category::destroy($category->id);
         }
