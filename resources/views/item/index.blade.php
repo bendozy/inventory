@@ -4,7 +4,7 @@
 
 
     <div class="panel panel-default">
-        <div class="panel-heading">Item</div>
+        <div class="panel-heading">Items</div>
         <div class="panel-body">
             <a href={{ url('/items/create') }} class="btn btn-primary">
                 Create Item

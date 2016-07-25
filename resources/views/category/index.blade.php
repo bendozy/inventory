@@ -34,6 +34,13 @@
                 @endforeach
                 </tbody>
             </table>
+            @if(count($categories) == 0)
+                <div style="color: red;">
+                    No Results
+                </div>
+            @endif
+
+            {!! $categories->render() !!}
         </div>
     </div>
 @endsection
