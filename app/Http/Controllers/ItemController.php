@@ -29,9 +29,10 @@ class ItemController extends Controller
 
     public function index()
     {
-        $items = Item::all();
+        $items = Item::paginate(10);
+        $categories = $this->categories;
 
-        return view('item.index', compact('items'));
+        return view('item.index', compact('items', 'categories'));
     }
 
     /**

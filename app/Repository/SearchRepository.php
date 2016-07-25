@@ -2,32 +2,41 @@
 
 namespace Inventory\Repository;
 
-class SerchRepository
+use DB;
+use Inventory\Item;
+use Illuminate\Http\Request;
+
+class SearchRepository
 {
-    public function filterBy($criteria, $constraint)
+
+    public function search(Request $request)
     {
-        $collection = Item::all();
-        $filtered = $collection->filter(function ($item) use($criteria, $constraint) {
-            return $item->$criteria <= $constraint;
-        });
+        $query = Item::with('category');
 
-        return $filtered;
-    }
+        $name = $request->get('name');
+        $category = $request->get('category');
+        $price = $request->get('price');
+        $order = $request->get('order');
 
+        if($name && !empty($name)){
+            $query->where('name','like',  '%'.$name .'%');
+        }
 
-    public function search($criteria, $constraint)
-    {
-        return Item::where($criteria, 'like', '%' . $constraint . '%')->paginate(10);
-    }
+        if($category && !empty($category)){
+            $query->where('category_id','=',  $category);
+        }
 
-    public function searchByNameAndCategory($name, $category)
-    {
-        return Item::where('name', 'like', '%' . $name . '%')->where('category', 'like', '%' . $category . '%')->pagination(10);
-    }
+        if($price && !empty($price)){
+            $query->where('price','=',  $price);
+        }
 
-    public function order($collection, $criteria)
-    {
-        return $collection->sortBy($criteria);
+        if($order === 'name'){
+            $query->orderBy('name');
+        } else {
+            $query->orderBy('price');
+        }
+
+        return $query->paginate(10);
     }
 
 }

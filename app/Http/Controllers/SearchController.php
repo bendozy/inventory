@@ -2,9 +2,11 @@
 
 namespace Inventory\Http\Controllers;
 
+use Inventory\Category;
+
 use Illuminate\Http\Request;
 
-use Inventory\Repository\SerchRepository;
+use Inventory\Repository\SearchRepository;
 
 use Inventory\Http\Requests;
 
@@ -14,12 +16,14 @@ class SearchController extends Controller
 
     public function __construct(SearchRepository $searchRepository)
     {
-        $this->$searchRepository = $searchRepository;
+        $this->searchRepository = $searchRepository;
     }
 
     public function search(Request $request)
     {
+        $categories = Category::all();
+        $items = $this->searchRepository->search($request);
 
-        $items = $this->searchRepository->search($request->all());
+        return view('item.index', compact('items', 'categories'));
     }
 }

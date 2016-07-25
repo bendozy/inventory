@@ -4,7 +4,7 @@
 
 
     <div class="panel panel-default">
-        <div class="panel-heading">Categories</div>
+        <div class="panel-heading">Item</div>
         <div class="panel-body">
             <a href={{ url('/items/create') }} class="btn btn-primary">
                 Create Item
@@ -20,11 +20,26 @@
                 @endif
 
                 <div class="form-group form inline">
-                    <label for="name" class="col-md-4 control-label">Name or Category</label>
+                    <label for="name" class="col-md-4 control-label">Name</label>
 
                     <div class="col-md-6">
                         <input id="name" type="text" class="form-control" name="name"
                                value="{{ old('name') }}">
+                    </div>
+                </div>
+
+                <div class="form-group form inline">
+                    <label for="name" class="col-md-4 control-label">Order By</label>
+
+                    <div class="col-md-6">
+                        <select name="category" class="form-control" id="category">
+                            <option value="0" selected>All Categories</option>
+                            @foreach($categories as $category)
+                                <option value={{ $category->id }} >
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
 
@@ -41,7 +56,7 @@
                     <label for="name" class="col-md-4 control-label">Order By</label>
 
                     <div class="col-md-6">
-                        <select name="order" class="form-control" id="category">
+                        <select name="order" class="form-control" id="order">
                             <option value="name">Name</option>
                             <option value="price">Price</option>
                         </select>
@@ -85,6 +100,13 @@
                 @endforeach
                 </tbody>
             </table>
+            @if(count($items) == 0)
+                <div style="color: red;">
+                    No Results
+                </div>
+            @endif
+
+            {!! $items->render() !!}
         </div>
     </div>
 @endsection
