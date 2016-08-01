@@ -2,9 +2,9 @@
 
 namespace Inventory\Http\Controllers;
 
+use Session;
 use Inventory\Category;
 use Illuminate\Http\Request;
-
 use Inventory\Http\Requests;
 
 class CategoryController extends Controller
@@ -53,6 +53,7 @@ class CategoryController extends Controller
         ]);
 
         Category::create($request->all());
+        Session::flash('success', 'The Category has been created succesfully.');
 
         return redirect('/categories');
     }
@@ -94,9 +95,11 @@ class CategoryController extends Controller
             $category->name = $request->get('name');
             $category->save();
         } else{
-
+           return back()->withInput($reques->input())
+                        ->withErrors('name', 'Invalid Category');
         }
 
+        Session::flash('success', 'The Category has been updated succesfully.');
         return redirect('/categories');
     }
 
@@ -112,6 +115,7 @@ class CategoryController extends Controller
             Category::destroy($category->id);
         }
 
+        Session::flash('success', 'The Category has been deleted succesfully.');
         return redirect('/categories');
     }
 }

@@ -6,6 +6,9 @@
     <div class="panel panel-default">
         <div class="panel-heading">Categories</div>
         <div class="panel-body">
+                @if(session()->has('success'))
+                    @include('flash.success')
+                @endif
                 <a href={{ url('/categories/create') }} class="btn btn-primary">
                     Create
                 </a>
