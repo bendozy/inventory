@@ -10,8 +10,8 @@ class CategoryTest extends TestCase
     /** @test */
     public function a_catecory_has_a_name()
     {
-        $team = new Category(['name' => 'Fashion']);
-        $this->assertEquals('Fashion', $team->name);
+        $category = new Category(['name' => 'Fashion']);
+        $this->assertEquals('Fashion', $category->name);
     }
 
     /** @test */
