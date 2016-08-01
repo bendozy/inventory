@@ -4,6 +4,9 @@
     <div class="panel panel-default">
         <div class="panel-heading">Create Item</div>
         <div class="panel-body">
+            @if(count($errors) > 0)
+                @include('errors.error')
+            @endif
             <form class="form-horizontal" role="form" method="POST"
                   action="{{ isset($item) ? url('/categories/'.$item->id) : url('/items') }}">
                 {{ csrf_field() }}
@@ -17,12 +20,6 @@
                     <div class="col-md-6">
                         <input id="name" required type="text" class="form-control" name="name"
                                value="{{ isset($item->name) ? $item->name : old('name') }}">
-
-                        @if ($errors->has('name'))
-                            <span class="help-block">
-                            <strong>{{ $errors->first('name') }}</strong>
-                        </span>
-                        @endif
                     </div>
                 </div>
 
@@ -32,12 +29,6 @@
                     <div class="col-md-6">
                         <input id="price" required type="text" class="form-control" name="price"
                                value="{{ isset($item->price) ? $item->price : old('price') }}">
-
-                        @if ($errors->has('price'))
-                            <span class="help-block">
-                            <strong>{{ $errors->first('price') }}</strong>
-                        </span>
-                        @endif
                     </div>
                 </div>
 

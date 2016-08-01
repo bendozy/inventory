@@ -4,6 +4,9 @@
     <div class="panel panel-default">
         <div class="panel-heading">Create Category</div>
         <div class="panel-body">
+            @if(count($errors) > 0)
+                @include('errors.error')
+            @endif
             <form class="form-horizontal" role="form" method="POST"
                   action="{{ isset($category) ? url('/categories/'.$category->id) : url('/categories') }}">
                 {{ csrf_field() }}
@@ -17,12 +20,6 @@
                     <div class="col-md-6">
                         <input id="name" required type="text" class="form-control" name="name"
                                value="{{ isset($category->name) ? $category->name : old('name') }}">
-
-                        @if ($errors->has('name'))
-                            <span class="help-block">
-                            <strong>{{ $errors->first('name') }}</strong>
-                        </span>
-                        @endif
                     </div>
                 </div>
 
